@@ -24,7 +24,7 @@
     Image GenImageText(int width, int height, const char *text);                                       // 이미지 생성: grayscale image from text data
 
     // 이미지 공작 함수
-    Image ImageCopy(Image image);                                                                      // Create an image duplicate (useful for transformations)
+    Image ImageCopy(Image image);                                                                      // 복제된 이미지를 생성한다 (변환에 유용)
     Image ImageFromImage(Image image, Rectangle rec);                                                  // 다른 이미지 조각을 이용해 이미지를 생성한다
     Image ImageText(const char *text, int fontSize, Color color);                                      // 텍스트를 이용해 이미지를 생성한다 (기본 글꼴)
     Image ImageTextEx(Font font, const char *text, float fontSize, float spacing, Color tint);         // 텍스트를 이용해 이미지를 생성한다 (커스텀 스프라이트 글꼴)
@@ -32,15 +32,15 @@
     void ImageToPOT(Image *image, Color fill);                                                         // 이미지를 POT로 변환한다 (power-of-two)
     void ImageCrop(Image *image, Rectangle crop);                                                      // Crop an image to a defined rectangle
     void ImageAlphaCrop(Image *image, float threshold);                                                // Crop image depending on alpha value
-    void ImageAlphaClear(Image *image, Color color, float threshold);                                  // Clear alpha channel to desired color
-    void ImageAlphaMask(Image *image, Image alphaMask);                                                // Apply alpha mask to image
+    void ImageAlphaClear(Image *image, Color color, float threshold);                                  // 알파 채널을 원하는 색상으로 지운다
+    void ImageAlphaMask(Image *image, Image alphaMask);                                                // 이미지에 알파 마스크를 적용한다
     void ImageAlphaPremultiply(Image *image);                                                          // Premultiply alpha channel
     void ImageBlurGaussian(Image *image, int blurSize);                                                // Apply Gaussian blur using a box blur approximation
     void ImageResize(Image *image, int newWidth, int newHeight);                                       // 이미지의 크기를 조절한다 (Bicubic scaling algorithm)
     void ImageResizeNN(Image *image, int newWidth,int newHeight);                                      // 이미지의 크기를 조절한다 (Nearest-Neighbor scaling algorithm)
     void ImageResizeCanvas(Image *image, int newWidth, int newHeight, int offsetX, int offsetY, Color fill);  // 캔버스의 크기를 조절하고 색상을 채운다
     void ImageMipmaps(Image *image);                                                                   // 제공된 이미지를 위해 모든 밉맵 레벨을 계산한다
-    void ImageDither(Image *image, int rBpp, int gBpp, int bBpp, int aBpp);                            // Dither image data to 16bpp or lower (Floyd-Steinberg dithering)
+    void ImageDither(Image *image, int rBpp, int gBpp, int bBpp, int aBpp);                            // 이미지 데이터를 16bpp 또는 보다 낮게 디더링한다 Dither image data to 16bpp or lower (Floyd-Steinberg dithering)
     void ImageFlipVertical(Image *image);                                                              // 이미지를 수직 방향으로 뒤집는다
     void ImageFlipHorizontal(Image *image);                                                            // 이미지를 수평 방향으로 뒤집는다
     void ImageRotate(Image *image, int degrees);                                                       // 입력받은 각도에 맞추어 이미지를 회전시킨다 (-359 에서 359 까지) 
@@ -49,13 +49,13 @@
     void ImageColorTint(Image *image, Color color);                                                    // 이미지 색상 변형: 틴트
     void ImageColorInvert(Image *image);                                                               // 이미지 색상 변형: invert
     void ImageColorGrayscale(Image *image);                                                            // 이미지 색상 변형: grayscale
-    void ImageColorContrast(Image *image, float contrast);                                             // 이미지 색상 변형: contrast (-100 to 100)
+    void ImageColorContrast(Image *image, float contrast);                                             // 이미지 색상 변형: 대비 (-100 to 100)
     void ImageColorBrightness(Image *image, int brightness);                                           // 이미지 색상 변형: 밝기 (-255 to 255)
-    void ImageColorReplace(Image *image, Color color, Color replace);                                  // 이미지 색상 변형: replace color
-    Color *LoadImageColors(Image image);                                                               // Load color data from image as a Color array (RGBA - 32bit)
-    Color *LoadImagePalette(Image image, int maxPaletteSize, int *colorCount);                         // Load colors palette from image as a Color array (RGBA - 32bit)
-    void UnloadImageColors(Color *colors);                                                             // Unload color data loaded with LoadImageColors()
-    void UnloadImagePalette(Color *colors);                                                            // Unload colors palette loaded with LoadImagePalette()
+    void ImageColorReplace(Image *image, Color color, Color replace);                                  // 이미지 색상 변형: 색상 변경
+    Color *LoadImageColors(Image image);                                                               // 이미지의 색상 데이터를 색상 배열로 가져온다 Load color data from image as a Color array (RGBA - 32bit)
+    Color *LoadImagePalette(Image image, int maxPaletteSize, int *colorCount);                         // 이미지의 색상 팔레트를 색상 배열로 가져온다 Load colors palette from image as a Color array (RGBA - 32bit)
+    void UnloadImageColors(Color *colors);                                                             // LoadImageColors()로 가져온 색상 데이터의 할당을 해제한다 Unload color data loaded with LoadImageColors()
+    void UnloadImagePalette(Color *colors);                                                            // LoatImagePalette()로 가져온 색상 팔레트의 할당을 해제한다 Unload colors palette loaded with LoadImagePalette()
     Rectangle GetImageAlphaBorder(Image image, float threshold);                                       // 이미지 알파 경계 직사각형을 얻는다
     Color GetImageColor(Image image, int x, int y);                                                    // 이미지 픽셀 (x, y) 위치의 색상을 얻는다
 
@@ -100,13 +100,13 @@
     void DrawTexture(Texture2D texture, int posX, int posY, Color tint);                               // 2D 텍스쳐를 그린다
     void DrawTextureV(Texture2D texture, Vector2 position, Color tint);                                // 이차원 벡터에 정의된 위치를 기반으로 2D 텍스쳐를 그린다
     void DrawTextureEx(Texture2D texture, Vector2 position, float rotation, float scale, Color tint);  // 추가된 매개변수를 기반으로 2D 텍스쳐를 그린다
-    void DrawTextureRec(Texture2D texture, Rectangle source, Vector2 position, Color tint);            // Draw a part of a texture defined by a rectangle
-    void DrawTexturePro(Texture2D texture, Rectangle source, Rectangle dest, Vector2 origin, float rotation, Color tint); // Draw a part of a texture defined by a rectangle with 'pro' parameters
+    void DrawTextureRec(Texture2D texture, Rectangle source, Vector2 position, Color tint);            // 직사각형에 의해 정의된 텍스쳐의 일부을 그린다 Draw a part of a texture defined by a rectangle
+    void DrawTexturePro(Texture2D texture, Rectangle source, Rectangle dest, Vector2 origin, float rotation, Color tint); // 'pro' 파리미터와 직사격형에 의해 정의된 텍스쳐의 일부를 그린다 Draw a part of a texture defined by a rectangle with 'pro' parameters
     void DrawTextureNPatch(Texture2D texture, NPatchInfo nPatchInfo, Rectangle dest, Vector2 origin, float rotation, Color tint); // Draws a texture (or part of it) that stretches or shrinks nicely
 
     // 색상/픽셀 기반 함수
     Color Fade(Color color, float alpha);                                 // Get color with alpha applied, alpha goes from 0.0f to 1.0f
-    int ColorToInt(Color color);                                          // Get hexadecimal value for a Color
+    int ColorToInt(Color color);                                          // 16진수 값의 색상값을 얻는다 Get hexadecimal value for a Color
     Vector4 ColorNormalize(Color color);                                  // Get Color normalized as float [0..1]
     Color ColorFromNormalized(Vector4 normalized);                        // Get Color from normalized values [0..1]
     Vector3 ColorToHSV(Color color);                                      // 색상을 위해 HSV 값을 얻는다, hue [0..360], saturation/value [0..1]
