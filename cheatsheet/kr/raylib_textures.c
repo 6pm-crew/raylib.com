@@ -40,7 +40,7 @@
     void ImageResizeNN(Image *image, int newWidth,int newHeight);                                      // 이미지의 크기를 조절한다 (Nearest-Neighbor scaling algorithm)
     void ImageResizeCanvas(Image *image, int newWidth, int newHeight, int offsetX, int offsetY, Color fill);  // 캔버스의 크기를 조절하고 색상을 채운다
     void ImageMipmaps(Image *image);                                                                   // 제공된 이미지를 위해 모든 밉맵 레벨을 계산한다
-    void ImageDither(Image *image, int rBpp, int gBpp, int bBpp, int aBpp);                            // 이미지 데이터를 16bpp 또는 보다 낮게 디더링한다 Dither image data to 16bpp or lower (Floyd-Steinberg dithering)
+    void ImageDither(Image *image, int rBpp, int gBpp, int bBpp, int aBpp);                            // 이미지 데이터를 16bpp 이하로 디더링한다 (Floyd-Steinberg dithering)
     void ImageFlipVertical(Image *image);                                                              // 이미지를 수직 방향으로 뒤집는다
     void ImageFlipHorizontal(Image *image);                                                            // 이미지를 수평 방향으로 뒤집는다
     void ImageRotate(Image *image, int degrees);                                                       // 입력받은 각도에 맞추어 이미지를 회전시킨다 (-359 에서 359 까지) 
@@ -93,8 +93,8 @@
 
     // 텍스쳐 구성 함수
     void GenTextureMipmaps(Texture2D *texture);                                                        // 텍스쳐를 위해 GPU 밉맵을 생성한다
-    void SetTextureFilter(Texture2D texture, int filter);                                              // 텍스쳐를 스케일링 필터모드로 한다 Set texture scaling filter mode
-    void SetTextureWrap(Texture2D texture, int wrap);                                                  // 텍스쳐를 랩핑모드로 설정한다 Set texture wrapping mode
+    void SetTextureFilter(Texture2D texture, int filter);                                              // 텍스처의 스케일링 필터 모드를 설정한다
+    void SetTextureWrap(Texture2D texture, int wrap);                                                  // 텍스처의 래핑 모드를 설정한다
 
     // 텍스쳐 그리기 함수
     void DrawTexture(Texture2D texture, int posX, int posY, Color tint);                               // 2D 텍스쳐를 그린다
@@ -102,21 +102,21 @@
     void DrawTextureEx(Texture2D texture, Vector2 position, float rotation, float scale, Color tint);  // 추가된 매개변수를 기반으로 2D 텍스쳐를 그린다
     void DrawTextureRec(Texture2D texture, Rectangle source, Vector2 position, Color tint);            // 직사각형에 의해 정의된 텍스쳐의 일부을 그린다 Draw a part of a texture defined by a rectangle
     void DrawTexturePro(Texture2D texture, Rectangle source, Rectangle dest, Vector2 origin, float rotation, Color tint); // 'pro' 파리미터와 직사격형에 의해 정의된 텍스쳐의 일부를 그린다 Draw a part of a texture defined by a rectangle with 'pro' parameters
-    void DrawTextureNPatch(Texture2D texture, NPatchInfo nPatchInfo, Rectangle dest, Vector2 origin, float rotation, Color tint); // Draws a texture (or part of it) that stretches or shrinks nicely
+    void DrawTextureNPatch(Texture2D texture, NPatchInfo nPatchInfo, Rectangle dest, Vector2 origin, float rotation, Color tint); // 잘 늘어나거나 줄어드는 텍스쳐(또는 그 일부)를 그립니다 Draws a texture (or part of it) that stretches or shrinks nicely
 
     // 색상/픽셀 기반 함수
-    Color Fade(Color color, float alpha);                                 // Get color with alpha applied, alpha goes from 0.0f to 1.0f
-    int ColorToInt(Color color);                                          // 16진수 값의 색상값을 얻는다 Get hexadecimal value for a Color
+    Color Fade(Color color, float alpha);                                 // 알파값이 적용된 색상을 얻는다, 알파는 0.0f 와 1.0f 사이이다
+    int ColorToInt(Color color);                                          // 16진수의 색상을 얻는다
     Vector4 ColorNormalize(Color color);                                  // Get Color normalized as float [0..1]
     Color ColorFromNormalized(Vector4 normalized);                        // Get Color from normalized values [0..1]
     Vector3 ColorToHSV(Color color);                                      // 색상을 위해 HSV 값을 얻는다, hue [0..360], saturation/value [0..1]
     Color ColorFromHSV(float hue, float saturation, float value);         // HSV 값을 위해 색상을 얻는다, hue [0..360], saturation/value [0..1]
     Color ColorTint(Color color, Color tint);                             // Get color multiplied with another color
-    Color ColorBrightness(Color color, float factor);                     // Get color with brightness correction, brightness factor goes from -1.0f to 1.0f
-    Color ColorContrast(Color color, float contrast);                     // Get color with contrast correction, contrast values between -1.0f and 1.0f
-    Color ColorAlpha(Color color, float alpha);                           // Get color with alpha applied, alpha goes from 0.0f to 1.0f
+    Color ColorBrightness(Color color, float factor);                     // 밝기 보정이 적용된 색상을 얻는다, 밝기 계수는 -1.0f 와 1.0f 사이이다
+    Color ColorContrast(Color color, float contrast);                     // 대비 보정이 적용된 색상을 얻는다, 대비값은 -1.0f 와 1.0f 사이이다
+    Color ColorAlpha(Color color, float alpha);                           // 알파값이 적용된 색상을 얻는다, 알파는 0.0f 와 1.0f 사이이다
     Color ColorAlphaBlend(Color dst, Color src, Color tint);              // Get src alpha-blended into dst color with tint
-    Color GetColor(unsigned int hexValue);                                // Get Color structure from hexadecimal value
+    Color GetColor(unsigned int hexValue);                                // 16진수 값으로 색상 구조체를 얻는다
     Color GetPixelColor(void *srcPtr, int format);                        // Get Color from a source pixel pointer of certain format
     void SetPixelColor(void *dstPtr, Color color, int format);            // Set color formatted into destination pixel pointer
     int GetPixelDataSize(int width, int height, int format);              // Get pixel data size in bytes for certain format
