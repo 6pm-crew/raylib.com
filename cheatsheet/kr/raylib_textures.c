@@ -30,8 +30,8 @@
     Image ImageTextEx(Font font, const char *text, float fontSize, float spacing, Color tint);         // 텍스트를 이용해 이미지를 생성한다 (커스텀 스프라이트 글꼴)
     void ImageFormat(Image *image, int newFormat);                                                     // 이미지 데이터를 제공된 형태로 변환한다
     void ImageToPOT(Image *image, Color fill);                                                         // 이미지를 POT로 변환한다 (power-of-two)
-    void ImageCrop(Image *image, Rectangle crop);                                                      // Crop an image to a defined rectangle
-    void ImageAlphaCrop(Image *image, float threshold);                                                // Crop image depending on alpha value
+    void ImageCrop(Image *image, Rectangle crop);                                                      // 이미지를 정의된 직사각형 영역으로 자른다
+    void ImageAlphaCrop(Image *image, float threshold);                                                // 이미지를 알파 값에 따라 자른다
     void ImageAlphaClear(Image *image, Color color, float threshold);                                  // 알파 채널을 원하는 색상으로 지운다
     void ImageAlphaMask(Image *image, Image alphaMask);                                                // 이미지에 알파 마스크를 적용한다
     void ImageAlphaPremultiply(Image *image);                                                          // Premultiply alpha channel
@@ -100,9 +100,9 @@
     void DrawTexture(Texture2D texture, int posX, int posY, Color tint);                               // 2D 텍스쳐를 그린다
     void DrawTextureV(Texture2D texture, Vector2 position, Color tint);                                // 이차원 벡터에 정의된 위치를 기반으로 2D 텍스쳐를 그린다
     void DrawTextureEx(Texture2D texture, Vector2 position, float rotation, float scale, Color tint);  // 추가된 매개변수를 기반으로 2D 텍스쳐를 그린다
-    void DrawTextureRec(Texture2D texture, Rectangle source, Vector2 position, Color tint);            // 직사각형에 의해 정의된 텍스쳐의 일부을 그린다 Draw a part of a texture defined by a rectangle
-    void DrawTexturePro(Texture2D texture, Rectangle source, Rectangle dest, Vector2 origin, float rotation, Color tint); // 'pro' 파리미터와 직사격형에 의해 정의된 텍스쳐의 일부를 그린다 Draw a part of a texture defined by a rectangle with 'pro' parameters
-    void DrawTextureNPatch(Texture2D texture, NPatchInfo nPatchInfo, Rectangle dest, Vector2 origin, float rotation, Color tint); // 잘 늘어나거나 줄어드는 텍스쳐(또는 그 일부)를 그립니다 Draws a texture (or part of it) that stretches or shrinks nicely
+    void DrawTextureRec(Texture2D texture, Rectangle source, Vector2 position, Color tint);            // 텍스쳐의 일부를 정의된 직사각형 영역으로 그린다
+    void DrawTexturePro(Texture2D texture, Rectangle source, Rectangle dest, Vector2 origin, float rotation, Color tint); // 텍스쳐의 일부를 'pro' 매개변수와 함께 정의된 직사각형 영역으로 그린다
+    void DrawTextureNPatch(Texture2D texture, NPatchInfo nPatchInfo, Rectangle dest, Vector2 origin, float rotation, Color tint); // 잘 늘어나거나 줄어드는 텍스쳐(또는 그 일부)를 그립니다
 
     // 색상/픽셀 기반 함수
     Color Fade(Color color, float alpha);                                 // 알파값이 적용된 색상을 얻는다, 알파는 0.0f 와 1.0f 사이이다
